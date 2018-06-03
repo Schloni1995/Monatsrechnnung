@@ -3,11 +3,11 @@ package data;
 import java.sql.Connection;
 import java.sql.DriverManager;
 
-public class ConnectToMyQL
+public class ConnectToMySQL
 {
 	Connection connection;
 
-	public ConnectToMyQL()
+	public ConnectToMySQL()
 	{
 		connect("DESKTOP-8ED31O8","monatsrechnung","root","rootTZ");
 	}
