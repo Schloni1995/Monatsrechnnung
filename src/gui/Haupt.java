@@ -3,8 +3,10 @@ package gui;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTable;
 
 public class Haupt extends JFrame
 {
@@ -12,6 +14,7 @@ public class Haupt extends JFrame
 	private JPanel contentPanel;
 	private JScrollPane tablePanel;
 	private JMenuBar jMenuBar;
+	private JTable table;
 
 	public static void main(String[] args)
 	{
@@ -21,6 +24,7 @@ public class Haupt extends JFrame
 	public Haupt()
 	{
 		setJMenuBar(getJMenuBar());
+		setContentPane(getContentPanel());
 		setExtendedState(JFrame.MAXIMIZED_BOTH);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setVisible(true);
@@ -29,7 +33,18 @@ public class Haupt extends JFrame
 	private JMenu getDateiMenu()
 	{
 		JMenu dateiMenu = new JMenu("Datei");
+		dateiMenu.add(getImportItem());
 		return dateiMenu;
+	}
+
+	private JMenuItem getImportItem()
+	{
+		JMenuItem importItem = new JMenuItem("Importieren");
+		importItem.addActionListener(e ->
+		{
+			
+		});
+		return importItem;
 	}
 
 	/** @return the contentPanel */
@@ -38,6 +53,7 @@ public class Haupt extends JFrame
 		if (contentPanel == null)
 		{
 			contentPanel = new JPanel();
+			contentPanel.add(getTablePanel());
 		}
 		return contentPanel;
 	}
@@ -45,7 +61,20 @@ public class Haupt extends JFrame
 	/** @return the tablePanel */
 	public JScrollPane getTablePanel()
 	{
+		if (tablePanel == null)
+		{
+			tablePanel = new JScrollPane(getTable());
+		}
 		return tablePanel;
+	}
+
+	public JTable getTable()
+	{
+		if (table == null)
+		{
+			table = new JTable();
+		}
+		return table;
 	}
 
 	/** @return the menuBar */
