@@ -1,5 +1,10 @@
 package gui;
 
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -7,6 +12,8 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+
+import data.ConnectToMySQL;
 
 public class Haupt extends JFrame
 {
@@ -42,6 +49,26 @@ public class Haupt extends JFrame
 		JMenuItem importItem = new JMenuItem("Importieren");
 		importItem.addActionListener(e ->
 		{
+			Connection c = new ConnectToMySQL().getConnection();
+			Statement st;
+			try
+			{
+				st = c.createStatement();
+				String sql = ("SELECT * FROM frequency");
+			ResultSet rs = st.executeQuery(sql);
+			if(rs.next()) { 
+			 int id = rs.getInt("id"); 
+			 String str1 = rs.getString("name");
+			 System.out.println(id + " " + str1);
+			}
+
+			c.close();
+			}
+			catch (SQLException e1)
+			{
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 			
 		});
 		return importItem;

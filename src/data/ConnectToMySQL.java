@@ -3,13 +3,15 @@ package data;
 import java.sql.Connection;
 import java.sql.DriverManager;
 
+import javax.swing.JOptionPane;
+
 public class ConnectToMySQL
 {
 	Connection connection;
 
 	public ConnectToMySQL()
 	{
-		connect("DESKTOP-8ED31O8","monatsrechnung","root","rootTZ");
+		connect("127.0.0.1:3306","monatsrechnung","root","rootTZ");
 	}
 
 	/**
@@ -24,15 +26,18 @@ public class ConnectToMySQL
 	{
 		try
 		{
-			Class.forName("com.mysql.jdbc.Driver").newInstance();
-			String connectionCommand = "jdbc:mysql://" + host + "/" + database + "?user=" + user + "&password="
-					+ passwd;
-			connection = DriverManager.getConnection(connectionCommand);
+			Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
+//			String connectionCommand = "jdbc:mysql://" + host + "/" + database + "?user=" + user + "&password="
+//					+ passwd;
+			String connectionCommand = "jdbc:mysql://localhost/"+database+"?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&useSSL=false";
+			connection = DriverManager.getConnection(connectionCommand,user,passwd);
 			return true;
 
 		}
 		catch (Exception ex)
 		{
+			JOptionPane.showMessageDialog(null, ex.getMessage(), "DB Error", JOptionPane.ERROR_MESSAGE);
+			ex.printStackTrace();
 			System.out.println("false");
 			return false;
 		}
