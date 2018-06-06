@@ -20,5 +20,9 @@ insert into ausgaben(position,preis,datum,bemerkung,jasmin,toni,frequenz)
 values('Nebenkosten',130.0,null,'',65.0,65.0,2);
 
 use monatsrechnung;
-select * from ausgaben
-left join frequency as freq on ausgaben.frequenz = freq.id
+SELECT 
+    *
+FROM
+    ausgaben AS a
+        LEFT JOIN
+    frequency AS f ON a.frequenz = f.id
