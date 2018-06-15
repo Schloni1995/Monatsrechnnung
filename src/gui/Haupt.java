@@ -18,6 +18,7 @@ public class Haupt extends JFrame
 	private JScrollPane tablePanel;
 	private JMenuBar jMenuBar;
 	private JTable table;
+	private static final String[] mainColNames = new String[] {"id","position","preis","datum","bemerkung","jasmin","toni","name"};
 
 	public static void main(String[] args)
 	{
@@ -45,13 +46,13 @@ public class Haupt extends JFrame
 		JMenuItem importItem = new JMenuItem("Importieren");
 		importItem.addActionListener(e ->
 		{
-			Object[][] data = DataReceiver.getAusgaben();
-			table.setModel(new DefaultTableModel(data, new String[data.length]));
+			Object[][] data = DataReceiver.getAusgaben(mainColNames);
+			table.setModel(new DefaultTableModel(data, mainColNames));
 			// table.setModel(new DefaultTableModel(DataReceiver.getFreqs(),new
 			// String[] {"ID","Häufigkeit"}));
-			table.getColumnModel().getColumn(table.getColumnModel().getColumnIndex("ID")).setMinWidth(0);
-			table.getColumnModel().getColumn(table.getColumnModel().getColumnIndex("ID")).setMaxWidth(0);
-			table.getColumnModel().getColumn(table.getColumnModel().getColumnIndex("ID")).setPreferredWidth(0);
+			table.getColumnModel().getColumn(table.getColumnModel().getColumnIndex(mainColNames[0])).setMinWidth(0);
+			table.getColumnModel().getColumn(table.getColumnModel().getColumnIndex(mainColNames[0])).setMaxWidth(0);
+			table.getColumnModel().getColumn(table.getColumnModel().getColumnIndex(mainColNames[0])).setPreferredWidth(0);
 
 		});
 		return importItem;

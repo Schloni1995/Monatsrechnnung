@@ -45,7 +45,7 @@ public class DataReceiver
 		return freqs;
 	}
 
-	public static Object[][] getAusgaben()
+	public static Object[][] getAusgaben(String[] colnames)
 	{
 		Object[][] ausgaben = null;
 		Connection c = new ConnectToMySQL().getConnection();
@@ -54,22 +54,26 @@ public class DataReceiver
 		try
 		{
 			st = c.createStatement();
-			String sql = ("use monatsrechnung;" + " SELECT * FROM ausgaben AS a LEFT JOIN frequency AS f ON a.frequenz = f.id");
+			String sql = ("SELECT a.id, a.position, a.preis, a.datum, a.bemerkung, a.jasmin, a.toni, f.name\r\n"
+					+ "FROM monatsrechnung.ausgaben AS a LEFT JOIN monatsrechnung.frequency AS f ON a.frequenz = f.id");
 			rs = st.executeQuery(sql);
-			int columnCount = rs.getMetaData().getColumnCount();
+			int columnCount = colnames.length;
 			int rowCount = 0;
+
 			if (rs.last())
 			{
 				rowCount = rs.getRow();
 				// Move to beginning
 				rs.beforeFirst();
 			}
+			System.out.println("TableDimension:" + rowCount + "(Rows)*" + columnCount + "(Column)");
 			ausgaben = new Object[rowCount][columnCount];
 			while (rs.next())
 			{
-				for (int i = 0; i < columnCount; i++)
+				int x = 0;
+				for (String string : colnames)
 				{
-					ausgaben[rs.getRow() - 1][i] = rs.getObject(i);
+					ausgaben[rs.getRow() - 1][x] = rs.getObject(string);
 				}
 			}
 
@@ -80,6 +84,31 @@ public class DataReceiver
 			e1.printStackTrace();
 			JOptionPane.showMessageDialog(null, e1.getMessage());
 		}
+		catch (ArrayIndexOutOfBoundsException e)
+		{
+			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, e.getMessage());
+		}
+		finally
+		{
+			try
+			{
+				rs.close();
+			}
+			catch (SQLException e)
+			{
+				e.printStackTrace();
+			}
+		}
+		
+		for (Object[] objects : ausgaben)
+		{
+			for (Object object : objects)
+			{
+				System.out.println(object+"");
+			}
+		}
+
 		return ausgaben;
 	}
 }
